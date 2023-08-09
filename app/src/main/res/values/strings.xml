@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Square Take Home Project</string>
+    <string name="reload">Reload</string>
+    <string name="request_timeout">This Request is takeing longer than expected. Please try again</string>
+    <string name="no_results_found">No Results Found</string>
+    <string name="network_unavailable">Network Unavailable. Please try again later</string>
+    <string name="unauthorized_access">It seems you do not have access for the required resource.</string>
+    <string name="server_error">Oops something is not working as expected. We are looking at it</string>
+    <string name="unknown_error">Unknown Error.</string>
+</resources>

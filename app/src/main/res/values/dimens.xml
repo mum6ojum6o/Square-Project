@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="square_half_grid">4dp</dimen>
+    <dimen name="square_base_grid">8dp</dimen>
+    <dimen name="square_double_grid">16dp</dimen>
+    <dimen name="square_quad_grid">32dp</dimen>
+</resources>

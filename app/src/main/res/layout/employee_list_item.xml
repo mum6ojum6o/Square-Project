@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/square_base_grid">
+
+    <ImageView
+        android:id="@+id/employee_item_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/square_base_grid"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_person_64"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/employee_item_name_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/square_base_grid"
+        android:layout_marginEnd="@dimen/square_base_grid"
+        tools:text="Lionel Messi"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toEndOf="@+id/employee_item_imageview"
+        app:layout_constraintTop_toTopOf="@+id/employee_item_imageview" />
+
+    <TextView
+        android:id="@+id/employee_item_team_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/square_base_grid"
+        tools:text="Argentina"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/employee_item_name_textview"
+        app:layout_constraintTop_toBottomOf="@+id/employee_item_name_textview" />
+</androidx.constraintlayout.widget.ConstraintLayout>
