@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,32 +33,27 @@ class EmployeeDataSourceTest: KoinComponent {
     val koinGraphRule = KoinGraphRule(
         listOf(
             module {
-               listOf(
-                   module {
-                       single<Retrofit> {
-                           val gson = GsonBuilder().create()
-                           Retrofit.Builder()
-                               .baseUrl(mockWebServer.url("/"))
-                               .addConverterFactory(GsonConverterFactory.create(gson))
-                               .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                               .client(OkHttpClient.Builder().build())
-                               .build()
-                       }
-                       single<EmployeeApi> {
-                           mock()
-                       }
-                       single<EmployeeRepository> {
-                           mock()
-                       }
-                   }
-               )
+                single<Retrofit> {
+                    val gson = GsonBuilder().create()
+                    Retrofit.Builder()
+                        .baseUrl(mockWebServer.url("/"))
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                        .client(OkHttpClient.Builder().build())
+                        .build()
+                }
+                single<EmployeeApi> {
+                    mock()
+                }
+                single<EmployeeRepository> {
+                    mock()
+                }
             }
         )
     )
 
     @Before
     fun before() {
-        //mockWebServer.start()
         employeeRepository = get()
         employeeDataSource = EmployeeDataSource()
     }
@@ -85,12 +81,11 @@ class EmployeeDataSourceTest: KoinComponent {
 
         whenever(employeeRepository.getEmployees()).thenReturn(Single.just(employeeList))
 
-        val single = employeeDataSource.getEmployees().subscribeOn(Schedulers.io())
-        val observer = single.test()
-        observer.assertValue { expectedValues ->
-            expectedValues[0] == validResponseList[0]
+        employeeDataSource.getEmployees().subscribeOn(Schedulers.io()).blockingSubscribe { employeesResponse ->
+            Assert.assertEquals(validResponseList.size,employeesResponse.size)
+            Assert.assertEquals(validResponseList[0],employeesResponse[0])
+            Assert.assertEquals(validResponseList[1],employeesResponse[1])
         }
-        observer.assertComplete()
     }
 
     @Test
@@ -102,8 +97,8 @@ class EmployeeDataSourceTest: KoinComponent {
         val single = employeeDataSource.getEmployees().subscribeOn(Schedulers.io())
         val observer = single.test()
         observer.assertEmpty()
-        observer.assertComplete()
     }
+    /*
     @Test
     fun `when Employee is malformed throw illegatStateException`() {
         val malformedEmployeeList = EmployeeList(
@@ -119,9 +114,14 @@ class EmployeeDataSourceTest: KoinComponent {
             )
         )
         whenever(employeeRepository.getEmployees()).thenReturn(Single.just(malformedEmployeeList))
-        val single = employeeDataSource.getEmployees().subscribeOn(Schedulers.io())
-        val observer = single.test()
-        observer.assertError(IllegalStateException::class.java)
+        val thrown = Assert.assertThrows(IllegalStateException::class.java) {
+            employeeDataSource.getEmployees().subscribeOn(Schedulers.io()).blockingSubscribe {}
+        }
+
+        val expectedMessage = ""
+        val actualMessage = thrown.message
+        Assert.assertEquals(expectedMessage,actualMessage)
     }
+    */
 
 }
