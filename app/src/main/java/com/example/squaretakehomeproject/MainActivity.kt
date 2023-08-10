@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun populateResults(data: List<EmployeeApplicationModel>) {
        recyclerView.visibility = VISIBLE
+        reloadButton.isEnabled = true
         errorView.visibility = INVISIBLE
         if(recyclerView.adapter == null ) {
             adapter = EmployeesAdapter(data)
@@ -81,10 +82,5 @@ class MainActivity : AppCompatActivity() {
             is NetworkState.ServerError -> errorViewMessage.text = resources.getText(R.string.network_unavailable)
             else -> errorViewMessage.text = resources.getText(R.string.unknown_error)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getEmployees()
     }
 }

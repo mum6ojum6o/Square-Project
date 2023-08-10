@@ -21,6 +21,9 @@ class EmployeeViewModel: ViewModel(), KoinComponent {
     val employeeFetchState: LiveData<NetworkState<List<EmployeeApplicationModel>>>
         get() = _employeesResultState
 
+    init{
+        getEmployees()
+    }
     fun getEmployees(){
         _employeesResultState.value = NetworkState.Loading
         dataSource.getEmployees()
